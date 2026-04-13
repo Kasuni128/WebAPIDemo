@@ -50,5 +50,14 @@
             shirtToUpdate.Gender= shirt.Gender;
             shirtToUpdate.Price = shirt.Price;
         }
+
+        public static void DeleteShirt(int id)
+        {
+            var shirtToDelete = GetShirtById(id);
+            if (shirtToDelete != null)
+            {
+                shirts.Remove(shirtToDelete);
+            }
+        }
     }
 }
