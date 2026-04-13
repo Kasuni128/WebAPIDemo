@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAPIDemo.Filters;
+using WebAPIDemo.Filters.ActionFilter;
+using WebAPIDemo.Filters.ExceptionFilter;
 using WebAPIDemo.Model;
 using WebAPIDemo.Model.Repositories;
-using WebAPIDemo.Model.Validations;
+
 
 namespace WebAPIDemo.Controller
 {
@@ -43,26 +45,11 @@ namespace WebAPIDemo.Controller
         [HttpPut("{id}")]
         [Shirt_ValidateShirtIdFilter]
         [Shirt_ValidateUpdateShirtFilter]
+        [Shirt_HandleUpdateExpectionFilter]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
-
-            try
-            {
-                ShirtRepository.UpdateShirt(shirt);
-            }
-            catch
-            {
-                if (!ShirtRepository.ShirtExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-
+            ShirtRepository.UpdateShirt(shirt);
+            
             return NoContent();
         }
     }

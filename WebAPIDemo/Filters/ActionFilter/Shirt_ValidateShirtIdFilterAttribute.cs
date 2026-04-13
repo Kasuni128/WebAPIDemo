@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using WebAPIDemo.Model.Repositories;
 
-namespace WebAPIDemo.Filters
+namespace WebAPIDemo.Filters.ActionFilter
 {
     public class Shirt_ValidateShirtIdFilterAttribute : ActionFilterAttribute
     {
