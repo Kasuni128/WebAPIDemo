@@ -2,6 +2,7 @@
 using WebAPIDemo.Filters;
 using WebAPIDemo.Model;
 using WebAPIDemo.Model.Repositories;
+using WebAPIDemo.Model.Validations;
 
 namespace WebAPIDemo.Controller
 {
@@ -24,13 +25,9 @@ namespace WebAPIDemo.Controller
         }
 
         [HttpPost]
+        [Shirt_ValidateCreateShirtFilter]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
-        {
-            if (shirt == null) return BadRequest();
-
-            var shirtExists = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size );
-            if (shirtExists != null) return BadRequest();
-            
+        {       
             ShirtRepository.AddShirt(shirt);
 
             return CreatedAtAction(nameof(GetShirtById), new { id = shirt.ShirtId }, shirt);    
