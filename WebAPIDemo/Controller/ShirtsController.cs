@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebAPIDemo.Filters;
 using WebAPIDemo.Model;
 using WebAPIDemo.Model.Repositories;
 
@@ -16,15 +17,10 @@ namespace WebAPIDemo.Controller
         }
 
         [HttpGet("{id}")]
+        [Shirt_ValidateShirtIdFilter]
         public IActionResult GetShirtById(int id)
         {
-            if(id <= 0)
-                return BadRequest("Invalid shirt id. Id must be greater than 0.");
-            
-            var shirt = ShirtRepository.GetShirtById(id);
-            if(shirt == null)
-                return NotFound();
-            return Ok(shirt);
+            return Ok(ShirtRepository.GetShirtById(id));
         }
 
         [HttpPost]
