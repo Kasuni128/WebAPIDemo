@@ -27,23 +27,24 @@ namespace WebAPIDemo.Controller
         }
 
         [HttpGet("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult GetShirtById(int id)
         {
-            return Ok(ShirtRepository.GetShirtById(id));
+            return Ok(HttpContext.Items["shirt"]);
         }
 
         [HttpPost]
-        [Shirt_ValidateCreateShirtFilter]
+        [TypeFilter(typeof(Shirt_ValidateCreateShirtFilterAttribute))]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {       
-            ShirtRepository.AddShirt(shirt);
+            this.dbContext.Shirts.Add(shirt);
+            this.dbContext.SaveChanges();
 
             return CreatedAtAction(nameof(GetShirtById), new { id = shirt.ShirtId }, shirt);    
         }
 
         [HttpDelete("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {
            var shirtToDelete = ShirtRepository.GetShirtById(id);
@@ -52,7 +53,7 @@ namespace WebAPIDemo.Controller
         }
 
         [HttpPut("{id}")]
-        [Shirt_ValidateShirtIdFilter]
+        [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         [Shirt_ValidateUpdateShirtFilter]
         [Shirt_HandleUpdateExpectionFilter]
         public IActionResult UpdateShirt(int id, Shirt shirt)
