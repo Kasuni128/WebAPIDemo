@@ -47,8 +47,10 @@ namespace WebAPIDemo.Controller
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         public IActionResult DeleteShirt(int id)
         {
-           var shirtToDelete = ShirtRepository.GetShirtById(id);
-            ShirtRepository.DeleteShirt(id);
+            var shirtToDelete = HttpContext.Items["shirt"] as Shirt;
+            dbContext.Shirts.Remove(shirtToDelete);
+            dbContext.SaveChanges();
+
             return Ok(shirtToDelete);
         }
 
