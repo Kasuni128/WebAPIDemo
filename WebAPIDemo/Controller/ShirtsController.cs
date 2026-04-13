@@ -55,11 +55,18 @@ namespace WebAPIDemo.Controller
         [HttpPut("{id}")]
         [TypeFilter(typeof(Shirt_ValidateShirtIdFilterAttribute))]
         [Shirt_ValidateUpdateShirtFilter]
-        [Shirt_HandleUpdateExpectionFilter]
+        [TypeFilter(typeof(Shirt_HandleUpdateExpectionFilterAttribute))]
         public IActionResult UpdateShirt(int id, Shirt shirt)
         {
-            ShirtRepository.UpdateShirt(shirt);
-            
+            var shirtToUpdate = HttpContext.Items["shirt"] as Shirt;
+            shirtToUpdate.Brand = shirt.Brand;
+            shirtToUpdate.Color = shirt.Color;
+            shirtToUpdate.Size = shirt.Size;
+            shirtToUpdate.Gender = shirt.Gender;
+            shirtToUpdate.Price = shirt.Price;
+
+            dbContext.SaveChanges();
+
             return NoContent();
         }
     }
