@@ -10,6 +10,11 @@
             new Shirt { ShirtId = 3, Brand = "Green Shirt", Color = "Green", Size = 12, Gender = "Men", Price = 39.99 }
         };
 
+        public static List<Shirt> GetAllShirts()
+        {
+            return shirts;
+        }
+
         public static bool ShirtExists(int id)
         {
             return shirts.Any(s => s.ShirtId == id);
@@ -18,6 +23,22 @@
         public static Shirt? GetShirtById(int id)
         {
             return shirts.FirstOrDefault(s => s.ShirtId == id);
+        }
+
+        public static Shirt? GetShirtByProperties(string? brand, string? gender, string? color, int? size)
+        {
+            return shirts.FirstOrDefault(s =>
+                !string.IsNullOrWhiteSpace(brand) && !string.IsNullOrWhiteSpace(s.Brand) && s.Brand.Equals(brand, StringComparison.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(gender) && !string.IsNullOrWhiteSpace(s.Gender) && s.Gender.Equals(gender, StringComparison.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(color) && !string.IsNullOrWhiteSpace(s.Color) && s.Color.Equals(color, StringComparison.OrdinalIgnoreCase) &&
+                size.HasValue && s.Size.HasValue && size.Value == s.Size.Value);
+        }
+
+        public static void AddShirt(Shirt shirt)
+        {
+            int maxId = shirts.Max(s => s.ShirtId);
+            shirt.ShirtId = maxId + 1;
+            shirts.Add(shirt);
         }
     }
 }

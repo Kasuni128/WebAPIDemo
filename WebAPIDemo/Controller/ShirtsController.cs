@@ -13,7 +13,7 @@ namespace WebAPIDemo.Controller
         [HttpGet]
         public IActionResult GetShirts()
         {
-            return Ok("Reading all the shirts");
+            return Ok(ShirtRepository.GetAllShirts());
         }
 
         [HttpGet("{id}")]
@@ -26,7 +26,14 @@ namespace WebAPIDemo.Controller
         [HttpPost]
         public IActionResult CreateShirt([FromBody]Shirt shirt)
         {
-            return Ok("Creating a new shirt");
+            if (shirt == null) return BadRequest();
+
+            var shirtExists = ShirtRepository.GetShirtByProperties(shirt.Brand, shirt.Gender, shirt.Color, shirt.Size );
+            if (shirtExists != null) return BadRequest();
+            
+            ShirtRepository.AddShirt(shirt);
+
+            return CreatedAtAction(nameof(GetShirtById), new { id = shirt.ShirtId }, shirt);    
         }
 
         [HttpDelete("{id}")]
