@@ -1,11 +1,11 @@
 ﻿namespace WebApp.Data
 {
-    public class WebApiExcuter : IWebApiExcuter
+    public class WebApiExecuter : IWebApiExcuter
     {
         private const string apiName = "ShirtsApi";
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public WebApiExcuter(IHttpClientFactory httpClientFactory)
+        public WebApiExecuter(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }

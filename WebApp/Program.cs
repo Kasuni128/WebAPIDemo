@@ -11,7 +11,7 @@ builder.Services.AddHttpClient("ShirtsApi", client =>
 });
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<IWebApiExcuter, WebApiExcuter>();
+builder.Services.AddTransient<IWebApiExcuter, WebApiExecuter>();
 
 var app = builder.Build();
 
