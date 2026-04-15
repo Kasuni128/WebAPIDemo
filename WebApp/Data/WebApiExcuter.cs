@@ -15,5 +15,14 @@
             var client = _httpClientFactory.CreateClient(apiName);
             return await client.GetFromJsonAsync<T>(relativeUrl);
         }
+
+        public async Task<T?> InvokePost<T>(string relativeUrl, T obj)
+        {
+            var client = _httpClientFactory.CreateClient(apiName);
+            var response = await client.PostAsJsonAsync(relativeUrl, obj);
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadFromJsonAsync<T>();
+        }
     }
 }

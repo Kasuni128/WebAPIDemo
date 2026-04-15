@@ -28,8 +28,26 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateShirt(Shirt shirt)
         {
+            if (ModelState.IsValid)
+            {
+                var response = await _webApiExcuter.InvokePost("shirts", shirt);
+                if(response != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
             var shirts = await _webApiExcuter.InvokeGet<List<Shirt>>("shirts");
             return View(shirt);
+        }
+
+        public async Task<IActionResult> UpdateShirt(int id)
+        {
+            var shirt = await _webApiExcuter.InvokeGet<Shirt>($"shirts/{id}");
+            if (shirt != null)
+            {
+                return View(shirt);
+            }
+            return NotFound();
         }
     }
 }
