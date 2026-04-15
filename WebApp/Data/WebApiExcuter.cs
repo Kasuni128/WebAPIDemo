@@ -31,5 +31,12 @@
             var response = await client.PutAsJsonAsync(relativeUrl, obj);
             response.EnsureSuccessStatusCode();
         }
+
+        public async Task InvokeDelete(string relativeUrl)
+        {
+            var client = _httpClientFactory.CreateClient(apiName);
+            var response = await client.DeleteAsync(relativeUrl);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _webApiExcuter.InvokePost($"shirts/{shirt.ShirtId}", shirt);
+                var response = await _webApiExcuter.InvokePost("shirts", shirt);
                 if(response != null)
                 {
                     return RedirectToAction(nameof(Index));
@@ -61,5 +61,14 @@ namespace WebApp.Controllers
 
             return View(shirt);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteShirt([FromForm] int id)
+        {
+            await _webApiExcuter.InvokeDelete($"shirts/{id}");
+            return RedirectToAction(nameof(Index));
+
+        }
+      
     }
 }
