@@ -13,6 +13,11 @@
         public async Task<T?> InvokeGet<T>(string relativeUrl)
         {
             var client = _httpClientFactory.CreateClient(apiName);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, relativeUrl);
+            var response = await client.SendAsync(request);
+            await HandlePotentialError(response);
+
             return await client.GetFromJsonAsync<T>(relativeUrl);
         }
 
@@ -20,7 +25,8 @@
         {
             var client = _httpClientFactory.CreateClient(apiName);
             var response = await client.PostAsJsonAsync(relativeUrl, obj);
-            response.EnsureSuccessStatusCode();
+
+            await HandlePotentialError(response);
 
             return await response.Content.ReadFromJsonAsync<T>();
         }
@@ -29,14 +35,23 @@
         {
             var client = _httpClientFactory.CreateClient(apiName);
             var response = await client.PutAsJsonAsync(relativeUrl, obj);
-            response.EnsureSuccessStatusCode();
+            await HandlePotentialError(response);
         }
 
         public async Task InvokeDelete(string relativeUrl)
         {
             var client = _httpClientFactory.CreateClient(apiName);
             var response = await client.DeleteAsync(relativeUrl);
-            response.EnsureSuccessStatusCode();
+            await HandlePotentialError(response);
+        }
+
+        private async Task HandlePotentialError(HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorJson = await response.Content.ReadAsStringAsync();
+                throw new WebApiException(errorJson);
+            }
         }
     }
 }
