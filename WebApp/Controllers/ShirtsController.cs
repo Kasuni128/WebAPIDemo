@@ -29,7 +29,7 @@ namespace WebApp.Controllers
         public async Task<IActionResult> CreateShirt(Shirt shirt)
         {
             var shirts = await _webApiExcuter.InvokeGet<List<Shirt>>("shirts");
-            return View(shirts);
+            return View(shirt);
         }
     }
 }
