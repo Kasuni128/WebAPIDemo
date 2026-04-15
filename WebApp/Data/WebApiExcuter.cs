@@ -18,7 +18,7 @@
             var response = await client.SendAsync(request);
             await HandlePotentialError(response);
 
-            return await client.GetFromJsonAsync<T>(relativeUrl);
+            return await response.Content.ReadFromJsonAsync<T>();
         }
 
         public async Task<T?> InvokePost<T>(string relativeUrl, T obj)
