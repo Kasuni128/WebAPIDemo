@@ -30,13 +30,12 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _webApiExcuter.InvokePost("shirts", shirt);
+                var response = await _webApiExcuter.InvokePost($"shirts/{shirt.ShirtId}", shirt);
                 if(response != null)
                 {
                     return RedirectToAction(nameof(Index));
                 }
             }
-            var shirts = await _webApiExcuter.InvokeGet<List<Shirt>>("shirts");
             return View(shirt);
         }
 
@@ -48,6 +47,19 @@ namespace WebApp.Controllers
                 return View(shirt);
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateShirt(Shirt shirt)
+        {
+            if (ModelState.IsValid)
+            {
+                await _webApiExcuter.InvokePut($"shirts/{shirt.ShirtId}", shirt);
+                return RedirectToAction(nameof(Index));
+             
+            }
+
+            return View(shirt);
         }
     }
 }
