@@ -19,5 +19,17 @@ namespace WebApp.Controllers
             var shirts = await _webApiExcuter.InvokeGet<List<Shirt>>("shirts");
             return View(shirts);
         }
+
+        public IActionResult CreateShirt()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateShirt(Shirt shirt)
+        {
+            var shirts = await _webApiExcuter.InvokeGet<List<Shirt>>("shirts");
+            return View(shirts);
+        }
     }
 }
