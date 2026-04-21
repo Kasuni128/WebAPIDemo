@@ -9,7 +9,8 @@
                         AoolicationId = 1,
                         AoolicationName = "MVCWebApp",
                         clientId = "a481f6ab-4e72-4d0d-a957-45fcb71ac58c",
-                        ClientSecret ="e7c088e1-959c-4c74-a730-73a137a50c74"
+                        ClientSecret ="e7c088e1-959c-4c74-a730-73a137a50c74",
+                        Scope = "read write"
                     }
                 };
 

@@ -9,5 +9,7 @@
         public string? clientId { get; set; }
 
         public string? ClientSecret { get; set; }
+
+        public string? Scope { get; set; }
     }
 }
